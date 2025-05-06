@@ -28,19 +28,22 @@ services:
 #       - .env
 
   mariadb:
-    build:
-      context: ./requirements/mariadb
     container_name: mariadb
-    restart: always
-    volumes:
-      - /home/${USER}/data/mariadb:/var/lib/mysql
-      - /home/${USER}/data/mysqld_run:/var/run/mysqld
-    environment:
-      - WP_DATABASE=${WP_DATABASE}
-      - WP_USER=${WP_USER}
-      - WP_PASSWORD=${WP_PASSWORD}
+    build: ./requirements/mariadb
+    image: mariadb
     networks:
       - inception
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    restart: on-failure
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    expose:
+      - 3306
 
 volumes:
   mariadb_data:
