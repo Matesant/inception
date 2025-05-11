@@ -1,49 +1,44 @@
 services:
-#   nginx:
-#     build: ./requirements/nginx
-#     ports:
-#       - "443:443"
-#     volumes:
-#       - wordpress_data:/var/www/html
-#       - certs:/etc/nginx/certs
-#     networks:
-#       - inception
-#     depends_on:
-#         - wordpress
-#     restart: always
-#     env_file:
-#       - .env
-
-#   wordpress:
-#     build: ./requirements/wordpress
-#     container_name: wordpress
-#     volumes:
-#       - wordpress_data:/var/www/html
-#     networks:
-#       - inception
-#     depends_on:
-#       - mariadb
-#     restart: always
-#     env_file:
-#       - .env
-
-  mariadb:
-    container_name: mariadb
-    build: ./requirements/mariadb
-    image: mariadb
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "443:443"
+    env_file: .env
+    volumes:
+      - wordpress_data:/var/www/wordpress
+    depends_on:
+      - wordpress
     networks:
       - inception
+
+
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    restart: always
+    env_file: .env
+    volumes:
+      - wordpress_data:/var/www/wordpress
+    depends_on:
+      - mariadb
+    networks:
+      - inception
+
+
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    restart: 
+      always
+    env_file: 
+      .env
     volumes:
       - mariadb_data:/var/lib/mysql
-    restart: on-failure
-    env_file:
-      - .env
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    expose:
-      - 3306
+    networks:
+      - inception
+
 
 volumes:
   mariadb_data:
@@ -53,6 +48,11 @@ volumes:
         device: /home/${USER}/data/mariadb
         o: bind
   wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/${USER}/data/wordpress
+      o: bind
   certs:
 
 networks:

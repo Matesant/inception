@@ -1,19 +1,16 @@
-FROM debian:oldstable
+FROM debian:bullseye
 
 RUN apt-get update && apt-get install -y \
-    php-fpm php-mysql php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip \
-    wget unzip \
+    php php-fpm php-mysql wget unzip curl mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://wordpress.org/latest.tar.gz \
-    && tar -xvzf latest.tar.gz \
-    && rm latest.tar.gz \
-    && mv wordpress /var/www/html
+# Cria diretório do WordPress
+RUN mkdir -p /var/www/wordpress
 
-WORKDIR /var/www/html
+# Copia script de setup
+COPY ./tools/setup.sh /setup.sh
+RUN chmod +x /setup.sh
 
-# COPY conf/ /etc/php/
+WORKDIR /var/www/wordpress
 
-EXPOSE 9000
-
-CMD ["php-fpm7.3", "-F"]
+CMD ["/setup.sh"]

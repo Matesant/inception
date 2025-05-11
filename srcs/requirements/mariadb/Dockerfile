@@ -1,12 +1,10 @@
-FROM debian:oldstable
+FROM debian:bullseye
 
-RUN apt-get update && apt-get install -y mariadb-server \
-    && mkdir -p /var/run/mysqld && \
-    chown -R mysql:mysql /var/run/mysqld && \
-    chmod 777 /var/run/mysqld
+RUN apt-get update && apt-get install -y mariadb-server
 
-COPY ./conf/init_db.sh /init_db.sh
+COPY ./tools/init.sh /init.sh
+RUN chmod +x /init.sh
 
-RUN chmod +x /init_db.sh
+EXPOSE 3306
 
-ENTRYPOINT ["./init_db.sh"]
+CMD ["bash", "/init.sh"]
