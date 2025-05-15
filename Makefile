@@ -3,7 +3,8 @@
 #------------------------------------------------------------------------------#
 
 USER            =   $(shell whoami)
-VOLUME_PATH     =   /home/$(USER)/data
+LOGIN			=	matesant
+VOLUME_PATH     =   /home/$(LOGIN)/data
 WORDPRESS_PATH  =   $(VOLUME_PATH)/wordpress
 MARIADB_PATH    =   $(VOLUME_PATH)/mariadb
 MYSQLD_RUN_PATH =   $(VOLUME_PATH)/mysqld_run
