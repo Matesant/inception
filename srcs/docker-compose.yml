@@ -45,13 +45,13 @@ volumes:
     driver: local
     driver_opts:
         type: none
-        device: /home/${USER}/data/mariadb
+        device: /home/matesant/data/mariadb
         o: bind
   wordpress_data:
     driver: local
     driver_opts:
       type: none
-      device: /home/${USER}/data/wordpress
+      device: /home/matesant/data/wordpress
       o: bind
   certs:
 
