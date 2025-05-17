@@ -9,7 +9,8 @@ services:
     volumes:
       - wordpress_data:/var/www/wordpress
     depends_on:
-      - wordpress
+        wordpress:
+          condition: service_healthy
     networks:
       - inception
 
@@ -25,6 +26,12 @@ services:
       - mariadb
     networks:
       - inception
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep php-fpm"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
 
 
   mariadb:
