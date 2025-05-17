@@ -4,36 +4,36 @@ set -e
 cd /var/www/wordpress
 
 check_db() {
-  echo "⏳ Verificando banco de dados em ${WORDPRESS_DB_HOST}..."
+  echo "⏳ Checking database at ${WORDPRESS_DB_HOST}..."
   mysql -h"${WORDPRESS_DB_HOST}" -u"${WORDPRESS_DB_USER}" -p"${WORDPRESS_DB_PASSWORD}" -e "SHOW DATABASES;" > /dev/null 2>&1
   return $?
 }
 
 until check_db; do
-  echo "⌛ Aguardando o banco de dados..."
+  echo "⌛ Waiting for database..."
   sleep 3
 done
-echo "✅ Banco disponível."
+echo "✅ Database available."
 
-# Baixa o WordPress se não estiver presente
+# Download WordPress if not present
 if [ ! -f wp-load.php ]; then
-  echo "⬇️ Baixando WordPress..."
+  echo "⬇️ Downloading WordPress..."
   wp core download --path=/var/www/wordpress --allow-root
 fi
 
-# Instalação e configuração
+# Installation and configuration
 if ! wp core is-installed --allow-root --path=/var/www/wordpress; then
-  echo "🔧 Criando wp-config.php"
+  echo "🔧 Creating wp-config.php"
   wp config create \
     --dbname=${WORDPRESS_DB_NAME} \
     --dbuser=${WORDPRESS_DB_USER} \
     --dbpass=${WORDPRESS_DB_PASSWORD} \
     --dbhost=${WORDPRESS_DB_HOST} \
-    --locale=pt_BR \
+    --locale=en_US \
     --allow-root \
     --path=/var/www/wordpress
 
-  echo "🚀 Instalando WordPress"
+  echo "🚀 Installing WordPress"
   wp core install \
     --url="https://matesant.42.fr" \
     --title="${WP_TITLE}" \
@@ -48,8 +48,8 @@ if ! wp core is-installed --allow-root --path=/var/www/wordpress; then
   wp option update default_comment_status open --allow-root --path=/var/www/wordpress
 
   wp post create \
-    --post_title="Bem-vindo ao Inception!" \
-    --post_content="Esse é um post de teste com comentários." \
+    --post_title="Welcome to Inception!" \
+    --post_content="This is a test post with comments." \
     --post_status=publish \
     --comment_status=open \
     --allow-root \
