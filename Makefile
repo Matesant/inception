@@ -50,15 +50,28 @@ setup:
 	fi
 	@if [ ! -f "$(DOT_ENV_FILE)" ]; then \
 		echo "$(YELLOW)Creating .env file...$(RESET)"; \
-		echo "DOMAIN_NAME=$(DOMAIN)" > $(DOT_ENV_FILE); \
+		echo "# Database" > $(DOT_ENV_FILE); \
 		echo "MYSQL_ROOT_PASSWORD=rootpass" >> $(DOT_ENV_FILE); \
 		echo "MYSQL_DATABASE=wordpress" >> $(DOT_ENV_FILE); \
 		echo "MYSQL_USER=wp_user" >> $(DOT_ENV_FILE); \
-		echo "MYSQL_PASSWORD=userpass" >> $(DOT_ENV_FILE); \
+		echo "MYSQL_PASSWORD=wp_pass" >> $(DOT_ENV_FILE); \
+		echo "" >> $(DOT_ENV_FILE); \
+		echo "# WordPress Admin" >> $(DOT_ENV_FILE); \
+		echo "WP_TITLE=Inception WP" >> $(DOT_ENV_FILE); \
+		echo "WP_ADMIN=owner42" >> $(DOT_ENV_FILE); \
+		echo "WP_ADMIN_PASS=owner42_password" >> $(DOT_ENV_FILE); \
+		echo "WP_ADMIN_EMAIL=owner42@42.fr" >> $(DOT_ENV_FILE); \
+		echo "" >> $(DOT_ENV_FILE); \
+		echo "# Viewer user" >> $(DOT_ENV_FILE); \
+		echo "WP_VIWER_USER=viewer" >> $(DOT_ENV_FILE); \
+		echo "WP_VIWER_PASSWORD=viewer_password" >> $(DOT_ENV_FILE); \
+		echo "WP_VIWER_EMAIL=viewer@example.com" >> $(DOT_ENV_FILE); \
+		echo "" >> $(DOT_ENV_FILE); \
+		echo "# WordPress config" >> $(DOT_ENV_FILE); \
 		echo "WORDPRESS_DB_HOST=mariadb" >> $(DOT_ENV_FILE); \
 		echo "WORDPRESS_DB_NAME=wordpress" >> $(DOT_ENV_FILE); \
 		echo "WORDPRESS_DB_USER=wp_user" >> $(DOT_ENV_FILE); \
-		echo "WORDPRESS_DB_PASSWORD=userpass" >> $(DOT_ENV_FILE); \
+		echo "WORDPRESS_DB_PASSWORD=wp_pass" >> $(DOT_ENV_FILE); \
 	fi
 
 ## Clean containers and networks

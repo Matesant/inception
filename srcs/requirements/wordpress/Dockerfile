@@ -16,7 +16,6 @@ RUN mkdir -p /var/www/wordpress
 # Copy setup script
 COPY ./tools/setup.sh /setup.sh
 COPY ./config/www.conf /etc/php/7.4/fpm/pool.d/www.conf
-COPY ./static/index.html /var/www/wordpress/index.html
 
 
 RUN chmod +x /setup.sh
