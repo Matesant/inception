@@ -31,12 +31,12 @@ all: setup up
 ## Start containers
 up:
 	@echo "$(CYAN)Starting containers...$(RESET)"
-	@docker-compose -f $(COMPOSE_FILE) --env-file $(DOT_ENV_FILE) up -d --build
+	@docker compose -f $(COMPOSE_FILE) --env-file $(DOT_ENV_FILE) up -d --build
 
 ## Stop containers
 down:
 	@echo "$(RED)Stopping containers...$(RESET)"
-	@docker-compose -f $(COMPOSE_FILE) down
+	@docker compose -f $(COMPOSE_FILE) down
 
 ## Set up environment: folders, .env, hosts
 setup:
