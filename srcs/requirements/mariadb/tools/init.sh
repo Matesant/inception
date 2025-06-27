@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mysqld_safe --skip-networking &
+service mariadb start
 sleep 10
 
 mariadb -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;"

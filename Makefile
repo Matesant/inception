@@ -76,14 +76,17 @@ setup:
 
 ## Clean containers and networks
 clean: down
-	@echo "$(RED)Cleaning Docker resources...$(RESET)"
-	@docker system prune -f
+	if [ -d ${VOLUMES_PATH} ]; then sudo rm -rf ${VOLUMES_PATH}; fi
+	if [ $(docker ps -q) ]; then docker stop $(docker ps -q); fi
+	if [ $(docker ps -aq) ]; then docker rm $(docker ps -aq); fi
+	if [ $(docker images -q) ]; then docker rmi $(docker images -q); fi
+	if [ $(docker volume ls -q) ]; then docker volume rm $(docker volume ls -q); fi
+	if [ $(docker network ls -q) ]; then docker network rm $(docker network ls -q); fi
+	docker system prune -a --volumes
 
 ## Full clean: containers, volumes, images and data
 fclean: clean
 	@echo "$(RED)Full cleanup...$(RESET)"
-	@docker system prune -af --volumes
-	@sudo rm -rf $(VOLUME_PATH) 2>/dev/null || true
 	@if grep -q '$(DOMAIN)' $(HOST_FILE); then \
 		echo "$(YELLOW)Removing $(DOMAIN) from $(HOST_FILE)...$(RESET)"; \
 		sudo sed -i '/$(DOMAIN)/d' $(HOST_FILE); \
