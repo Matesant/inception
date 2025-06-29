@@ -43,17 +43,8 @@ services:
 volumes:
   mariadb_data:
     driver: local
-    driver_opts:
-        type: none
-        device: /home/matesant/data/mariadb
-        o: bind
   wordpress_data:
     driver: local
-    driver_opts:
-      type: none
-      device: /home/matesant/data/wordpress
-      o: bind
-  certs:
 
 networks:
   inception:
