@@ -56,9 +56,9 @@ if ! wp core is-installed --allow-root --path=/var/www/wordpress; then
     --path=/var/www/wordpress
 
   wp user create \
-    "${WP_VIWER_USER}" "${WP_VIWER_EMAIL}" \
+    "${WP_VIEWER_USER}" "${WP_VIEWER_EMAIL}" \
     --role=subscriber \
-    --user_pass="${WP_VIWER_PASSWORD}" \
+    --user_pass="${WP_VIEWER_PASSWORD}" \
     --allow-root \
     --path=/var/www/wordpress
 fi

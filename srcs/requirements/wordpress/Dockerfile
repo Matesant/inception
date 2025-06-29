@@ -22,4 +22,6 @@ RUN chmod +x /setup.sh
 
 WORKDIR /var/www/wordpress
 
+EXPOSE 9000
+
 CMD ["/setup.sh"]

@@ -9,4 +9,6 @@ COPY ./config/default.conf /etc/nginx/conf.d/default.conf
 COPY ./tools/setup.sh /setup.sh
 RUN chmod +x /setup.sh
 
+EXPOSE 443
+
 CMD ["/setup.sh"]

@@ -38,12 +38,9 @@ down:
 	@echo "$(RED)Stopping containers...$(RESET)"
 	@docker compose -f $(COMPOSE_FILE) down
 
-## Set up environment: folders, .env, hosts
+## Set up environment: .env, hosts
 setup:
 	@echo "$(GREEN)Setting up environment...$(RESET)"
-	@sudo mkdir -p $(WORDPRESS_PATH) $(MARIADB_PATH) $(MYSQLD_RUN_PATH)
-	@sudo chown -R $(USER):$(USER) $(VOLUME_PATH)
-	@sudo chmod -R 755 $(VOLUME_PATH)
 	@if ! grep -q '$(DOMAIN)' $(HOST_FILE); then \
 		echo "$(YELLOW)Adding $(DOMAIN) to $(HOST_FILE)...$(RESET)"; \
 		echo "127.0.0.1	$(DOMAIN)" | sudo tee -a $(HOST_FILE); \
@@ -63,9 +60,9 @@ setup:
 		echo "WP_ADMIN_EMAIL=owner42@42.fr" >> $(DOT_ENV_FILE); \
 		echo "" >> $(DOT_ENV_FILE); \
 		echo "# Viewer user" >> $(DOT_ENV_FILE); \
-		echo "WP_VIWER_USER=viewer" >> $(DOT_ENV_FILE); \
-		echo "WP_VIWER_PASSWORD=viewer_password" >> $(DOT_ENV_FILE); \
-		echo "WP_VIWER_EMAIL=viewer@example.com" >> $(DOT_ENV_FILE); \
+		echo "WP_VIEWER_USER=viewer" >> $(DOT_ENV_FILE); \
+		echo "WP_VIEWER_PASSWORD=viewer_password" >> $(DOT_ENV_FILE); \
+		echo "WP_VIEWER_EMAIL=viewer@example.com" >> $(DOT_ENV_FILE); \
 		echo "" >> $(DOT_ENV_FILE); \
 		echo "# WordPress config" >> $(DOT_ENV_FILE); \
 		echo "WORDPRESS_DB_HOST=mariadb" >> $(DOT_ENV_FILE); \
@@ -76,13 +73,13 @@ setup:
 
 ## Clean containers and networks
 clean: down
-	if [ -d ${VOLUMES_PATH} ]; then sudo rm -rf ${VOLUMES_PATH}; fi
-	if [ $(docker ps -q) ]; then docker stop $(docker ps -q); fi
-	if [ $(docker ps -aq) ]; then docker rm $(docker ps -aq); fi
-	if [ $(docker images -q) ]; then docker rmi $(docker images -q); fi
-	if [ $(docker volume ls -q) ]; then docker volume rm $(docker volume ls -q); fi
-	if [ $(docker network ls -q) ]; then docker network rm $(docker network ls -q); fi
-	docker system prune -a --volumes
+	@echo "$(RED)Cleaning containers, images and volumes...$(RESET)"
+	@if [ $$(docker ps -q | wc -l) -gt 0 ]; then docker stop $$(docker ps -q); fi
+	@if [ $$(docker ps -aq | wc -l) -gt 0 ]; then docker rm $$(docker ps -aq); fi
+	@if [ $$(docker images -q | wc -l) -gt 0 ]; then docker rmi $$(docker images -q); fi
+	@if [ $$(docker volume ls -q | wc -l) -gt 0 ]; then docker volume rm $$(docker volume ls -q); fi
+	@if [ $$(docker network ls -q --filter type=custom | wc -l) -gt 0 ]; then docker network rm $$(docker network ls -q --filter type=custom); fi
+	@docker system prune -a --volumes -f
 
 ## Full clean: containers, volumes, images and data
 fclean: clean
