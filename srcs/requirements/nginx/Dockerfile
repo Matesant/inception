@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bullseye-slim
 
 RUN apt-get update && \
     apt-get install -y nginx openssl netcat && \
@@ -6,9 +6,9 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY ./config/default.conf /etc/nginx/conf.d/default.conf
-COPY ./tools/setup.sh /setup.sh
-RUN chmod +x /setup.sh
+COPY ./tools/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 443
 
-CMD ["/setup.sh"]
+CMD ["/entrypoint.sh"]

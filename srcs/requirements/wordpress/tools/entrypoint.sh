@@ -16,13 +16,10 @@ done
 echo "✅ Database available."
 
 # Download WordPress if not present
-if [ ! -f wp-load.php ]; then
+if [ ! -f wp-config.php ]; then
   echo "⬇️ Downloading WordPress..."
-  wp core download --path=/var/www/wordpress --allow-root
-fi
+  wp core download --allow-root --path=/var/www/wordpress
 
-# Installation and configuration
-if ! wp core is-installed --allow-root --path=/var/www/wordpress; then
   echo "🔧 Creating wp-config.php"
   wp config create \
     --dbname=${WORDPRESS_DB_NAME} \

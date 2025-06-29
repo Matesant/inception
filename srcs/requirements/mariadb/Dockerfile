@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bullseye-slim
 
 
 RUN apt-get update && apt-get install -y mariadb-server \
@@ -6,10 +6,10 @@ RUN apt-get update && apt-get install -y mariadb-server \
     chown -R mysql:mysql /var/run/mysqld && \
     chmod 777 /var/run/mysqld
 
-COPY ./tools/init.sh /init.sh
+COPY ./tools/entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /init.sh
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 3306
 
-ENTRYPOINT ["./init.sh"]
+ENTRYPOINT ["./entrypoint.sh"]

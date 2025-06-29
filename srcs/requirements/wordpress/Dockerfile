@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bullseye-slim
 
 RUN apt-get update && apt-get install -y \
     php php-fpm php-mysql wget unzip curl mariadb-client \
@@ -13,15 +13,15 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 # Create WordPress directory
 RUN mkdir -p /var/www/wordpress
 
-# Copy setup script
-COPY ./tools/setup.sh /setup.sh
+# Copy entrypoint script
+COPY ./tools/entrypoint.sh /entrypoint.sh
 COPY ./config/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
 
-RUN chmod +x /setup.sh
+RUN chmod +x /entrypoint.sh
 
 WORKDIR /var/www/wordpress
 
 EXPOSE 9000
 
-CMD ["/setup.sh"]
+CMD ["/entrypoint.sh"]
