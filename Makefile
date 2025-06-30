@@ -56,12 +56,12 @@ setup:
 		echo "# WordPress Admin" >> $(DOT_ENV_FILE); \
 		echo "WP_TITLE=Inception WP" >> $(DOT_ENV_FILE); \
 		echo "WP_ADMIN=owner42" >> $(DOT_ENV_FILE); \
-		echo "WP_ADMIN_PASS=owner42_password" >> $(DOT_ENV_FILE); \
+		echo "WP_ADMIN_PASS=owner42_pass" >> $(DOT_ENV_FILE); \
 		echo "WP_ADMIN_EMAIL=owner42@42.fr" >> $(DOT_ENV_FILE); \
 		echo "" >> $(DOT_ENV_FILE); \
 		echo "# Viewer user" >> $(DOT_ENV_FILE); \
 		echo "WP_VIWER_USER=viewer" >> $(DOT_ENV_FILE); \
-		echo "WP_VIWER_PASSWORD=viewer_password" >> $(DOT_ENV_FILE); \
+		echo "WP_VIWER_PASSWORD=viewer_pass" >> $(DOT_ENV_FILE); \
 		echo "WP_VIWER_EMAIL=viewer@example.com" >> $(DOT_ENV_FILE); \
 		echo "" >> $(DOT_ENV_FILE); \
 		echo "# WordPress config" >> $(DOT_ENV_FILE); \
