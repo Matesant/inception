@@ -41,6 +41,7 @@ down:
 ## Set up environment: .env, hosts
 setup:
 	@echo "$(GREEN)Setting up environment...$(RESET)"
+	@sudo mkdir -p $(VOLUME_PATH)/wordpress $(VOLUME_PATH)/mariadb
 	@if ! grep -q '$(DOMAIN)' $(HOST_FILE); then \
 		echo "$(YELLOW)Adding $(DOMAIN) to $(HOST_FILE)...$(RESET)"; \
 		echo "127.0.0.1	$(DOMAIN)" | sudo tee -a $(HOST_FILE); \
@@ -81,6 +82,7 @@ clean: down
 ## Full clean: containers, volumes, images and data
 fclean: clean
 	@echo "$(RED)Full cleanup...$(RESET)"
+	@sudo rm -rf $(VOLUME_PATH)
 	@if grep -q '$(DOMAIN)' $(HOST_FILE); then \
 		echo "$(YELLOW)Removing $(DOMAIN) from $(HOST_FILE)...$(RESET)"; \
 		sudo sed -i '/$(DOMAIN)/d' $(HOST_FILE); \
