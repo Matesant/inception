@@ -5,13 +5,13 @@ cd /var/www/wordpress
 
 check_db() {
   echo "⏳ Checking database at ${WORDPRESS_DB_HOST}..."
-  mysql -h"${WORDPRESS_DB_HOST}" -u"${WORDPRESS_DB_USER}" -p"${WORDPRESS_DB_PASSWORD}" -e "SHOW DATABASES;" > /dev/null 2>&1
+  mysql -h"${WORDPRESS_DB_HOST}" -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -e "SHOW DATABASES;" > /dev/null 2>&1
   return $?
 }
 
 until check_db; do
   echo "⌛ Waiting for database..."
-  sleep 3
+  sleep 1
 done
 echo "✅ Database available."
 
@@ -22,9 +22,9 @@ if [ ! -f wp-config.php ]; then
 
   echo "🔧 Creating wp-config.php"
   wp config create \
-    --dbname=${WORDPRESS_DB_NAME} \
-    --dbuser=${WORDPRESS_DB_USER} \
-    --dbpass=${WORDPRESS_DB_PASSWORD} \
+    --dbname=${MYSQL_DATABASE} \
+    --dbuser=${MYSQL_USER} \
+    --dbpass=${MYSQL_PASSWORD} \
     --dbhost=${WORDPRESS_DB_HOST} \
     --locale=en_US \
     --allow-root \
@@ -53,9 +53,9 @@ if [ ! -f wp-config.php ]; then
     --path=/var/www/wordpress
 
   wp user create \
-    "${WP_VIEWER_USER}" "${WP_VIEWER_EMAIL}" \
+    "${WP_VIWER_USER}" "${WP_VIWER_EMAIL}" \
     --role=subscriber \
-    --user_pass="${WP_VIEWER_PASSWORD}" \
+    --user_pass="${WP_VIWER_PASSWORD}" \
     --allow-root \
     --path=/var/www/wordpress
 fi

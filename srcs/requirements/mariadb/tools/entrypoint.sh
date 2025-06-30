@@ -1,7 +1,6 @@
 #!/bin/bash
 
 service mariadb start
-sleep 5
 
 # Set root password
 mariadb -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${MYSQL_ROOT_PASSWORD}');"
