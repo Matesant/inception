@@ -60,15 +60,12 @@ setup:
 		echo "WP_ADMIN_EMAIL=owner42@42.fr" >> $(DOT_ENV_FILE); \
 		echo "" >> $(DOT_ENV_FILE); \
 		echo "# Viewer user" >> $(DOT_ENV_FILE); \
-		echo "WP_VIEWER_USER=viewer" >> $(DOT_ENV_FILE); \
-		echo "WP_VIEWER_PASSWORD=viewer_password" >> $(DOT_ENV_FILE); \
-		echo "WP_VIEWER_EMAIL=viewer@example.com" >> $(DOT_ENV_FILE); \
+		echo "WP_VIWER_USER=viewer" >> $(DOT_ENV_FILE); \
+		echo "WP_VIWER_PASSWORD=viewer_password" >> $(DOT_ENV_FILE); \
+		echo "WP_VIWER_EMAIL=viewer@example.com" >> $(DOT_ENV_FILE); \
 		echo "" >> $(DOT_ENV_FILE); \
 		echo "# WordPress config" >> $(DOT_ENV_FILE); \
 		echo "WORDPRESS_DB_HOST=mariadb" >> $(DOT_ENV_FILE); \
-		echo "WORDPRESS_DB_NAME=wordpress" >> $(DOT_ENV_FILE); \
-		echo "WORDPRESS_DB_USER=wp_user" >> $(DOT_ENV_FILE); \
-		echo "WORDPRESS_DB_PASSWORD=wp_pass" >> $(DOT_ENV_FILE); \
 	fi
 
 ## Clean containers and networks
