@@ -17,7 +17,7 @@ echo "🔁 Waiting for WordPress (php-fpm) to be ready..."
 
 until nc -z wordpress 9000; do
   echo "⏳ Waiting for php-fpm on wordpress:9000..."
-  sleep 2
+  sleep 1
 done
 
 echo "✅ WordPress is ready!"
