@@ -15,7 +15,6 @@ until check_db; do
 done
 echo "✅ Database available."
 
-# Download WordPress if not present
 if [ ! -f wp-config.php ]; then
   echo "⬇️ Downloading WordPress..."
   wp core download --allow-root --path=/var/www/wordpress

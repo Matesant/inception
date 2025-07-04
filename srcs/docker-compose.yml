@@ -9,7 +9,8 @@ services:
     volumes:
       - /home/matesant/data/wordpress:/var/www/wordpress
     depends_on:
-      - wordpress
+      wordpress:
+        condition: service_healthy
     networks:
       - inception
 
@@ -22,7 +23,13 @@ services:
     volumes:
       - /home/matesant/data/wordpress:/var/www/wordpress
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wp", "core", "is-installed", "--allow-root"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
     networks:
       - inception
 
@@ -30,14 +37,17 @@ services:
   mariadb:
     build: ./requirements/mariadb
     container_name: mariadb
-    restart: 
-      always
-    env_file: 
-      .env
+    restart: always
+    env_file: .env
     volumes:
       - /home/matesant/data/mariadb:/var/lib/mysql
     networks:
       - inception
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 
 networks:
